@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Transactional
 public class DBService {
 
-
     @Autowired
     private PrefeituraRepository prefeituraRepo;
 
