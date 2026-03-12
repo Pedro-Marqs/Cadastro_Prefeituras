@@ -2,11 +2,10 @@ package com.domains;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.domains.enums.Provimento;
+import com.infra.ProvimentoConverter;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,6 +41,10 @@ public class Servidor {
     @Column(precision = 18, scale = 3, nullable = false)
     private Integer matricula;
 
+    @Convert(converter = ProvimentoConverter.class)
+    @Column(name = "provimento", nullable = false)
+    private Provimento provimento;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idDepartamento", nullable = false)
     private Departamento departamento;
@@ -49,12 +52,13 @@ public class Servidor {
     public Servidor() {
     }
 
-    public Servidor(Long id, String nome, String CPF, BigDecimal salario, Integer matricula, Departamento departamento) {
+    public Servidor(Long id, String nome, String CPF, BigDecimal salario, Integer matricula, Provimento provimento, Departamento departamento) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
         this.salario = salario;
         this.matricula = matricula;
+        this.provimento = provimento;
         this.departamento = departamento;
     }
 
@@ -96,6 +100,14 @@ public class Servidor {
 
     public void setMatricula(Integer matricula) {
         this.matricula = matricula;
+    }
+
+    public Provimento getProvimento() {
+        return provimento;
+    }
+
+    public void setProvimento(Provimento provimento) {
+        this.provimento = provimento;
     }
 
     public Departamento getDepartamento() {
