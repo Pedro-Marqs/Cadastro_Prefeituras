@@ -38,7 +38,7 @@ public class Servidor {
     private BigDecimal salario;
 
     @NotBlank
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 15)
     private String matricula;
 
     @Convert(converter = ProvimentoConverter.class)

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrefeituraRepository extends JpaRepository<Prefeitura, Long> {
-    Page<Prefeitura> findByNome(String nome, Pageable pageable);
+    Page<Prefeitura> findByCidade(String cidade, Pageable pageable);
 }
 
