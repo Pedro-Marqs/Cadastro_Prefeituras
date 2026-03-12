@@ -28,8 +28,9 @@ public class ServidorDTO {
     @PositiveOrZero(message = "Salário não pode ser negativo")
     private BigDecimal salario;
 
-    @NotNull(message = "Matrícula é obrigatória")
-    private Integer matricula;
+    @NotBlank(message = "Matrícula do servidor é obrigatório")
+    @Size(max = 150, message = "Matrícula deve ter 15 caracteres")
+    private String matricula;
 
     @NotNull(message = "Usuario é obrigatório")
     private Integer usuarioId;
@@ -41,7 +42,7 @@ public class ServidorDTO {
     public ServidorDTO() {
     }
 
-    public ServidorDTO(Long id, String nome, String CPF, BigDecimal salario, Integer matricula, Integer usuarioId, Integer provimento) {
+    public ServidorDTO(Long id, String nome, String CPF, BigDecimal salario, String matricula, Integer usuarioId, Integer provimento) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
@@ -83,11 +84,11 @@ public class ServidorDTO {
         this.salario = salario;
     }
 
-    public Integer getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(Integer matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 

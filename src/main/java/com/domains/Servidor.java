@@ -37,9 +37,9 @@ public class Servidor {
     @Column(precision = 18, scale = 3, nullable = false)
     private BigDecimal salario;
 
-    @NotNull
-    @Column(precision = 18, scale = 3, nullable = false)
-    private Integer matricula;
+    @NotBlank
+    @Column(nullable = false, length = 11)
+    private String matricula;
 
     @Convert(converter = ProvimentoConverter.class)
     @Column(name = "provimento", nullable = false)
@@ -52,7 +52,7 @@ public class Servidor {
     public Servidor() {
     }
 
-    public Servidor(Long id, String nome, String CPF, BigDecimal salario, Integer matricula, Provimento provimento, Departamento departamento) {
+    public Servidor(Long id, String nome, String CPF, BigDecimal salario, String matricula, Provimento provimento, Departamento departamento) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
@@ -94,11 +94,11 @@ public class Servidor {
         this.salario = salario;
     }
 
-    public Integer getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(Integer matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
