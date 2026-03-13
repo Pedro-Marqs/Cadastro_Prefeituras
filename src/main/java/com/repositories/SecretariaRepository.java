@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SecretariaRepository extends JpaRepository<Secretaria, Long> {
-    Page<Secretaria> findByPrefeitura_Id(Integer prefeituraId, Pageable pageable);
+    Page<Secretaria> findByPrefeitura_Id(Long prefeituraId, Pageable pageable);
     Page<Secretaria> findByNome(String nome, Pageable pageable);
 }
