@@ -1,9 +1,7 @@
 package com.services;
 
 import com.domains.*;
-import com.domains.dtos.PrefeituraDTO;
 import com.domains.dtos.SecretariaDTO;
-import com.mappers.PrefeituraMapper;
 import com.mappers.SecretariaMapper;
 import com.repositories.PrefeituraRepository;
 import com.repositories.SecretariaRepository;

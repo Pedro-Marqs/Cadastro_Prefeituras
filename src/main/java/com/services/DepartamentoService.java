@@ -63,7 +63,7 @@ public class DepartamentoService {
 
     /** Paginado, filtrando por secretaria */
     @Transactional(readOnly = true)
-    public Page<DepartamentoDTO> findAllBySecretaria(Integer secretariaId, Pageable pageable) {
+    public Page<DepartamentoDTO> findAllBySecretaria(Long secretariaId, Pageable pageable) {
         if (secretariaId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "secretariaId é obrigatório");
         }
@@ -91,7 +91,7 @@ public class DepartamentoService {
 
     /** Não paginado, filtrando por secretaria (reaproveita o paginado com unpaged) */
     @Transactional(readOnly = true)
-    public List<DepartamentoDTO> findAllBySecretaria(Integer secretariaId) {
+    public List<DepartamentoDTO> findAllBySecretaria(Long secretariaId) {
         return findAllBySecretaria(secretariaId, Pageable.unpaged()).getContent();
     }
 
