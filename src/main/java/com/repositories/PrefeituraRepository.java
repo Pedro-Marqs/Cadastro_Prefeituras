@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PrefeituraRepository extends JpaRepository<Prefeitura, Long> {
     Page<Prefeitura> findByCidade(String cidade, Pageable pageable);
-    Page<Prefeitura> findByNome(String nome, Pageable pageable);
 }
 

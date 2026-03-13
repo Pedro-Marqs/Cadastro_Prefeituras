@@ -14,10 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
 
 import java.util.List;
-
-import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
 
 @Service
 public class PrefeituraService {
@@ -36,7 +35,7 @@ public class PrefeituraService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PrefeituraDTO> findByNome(String nome, Pageable pageable) {
+    public Page<PrefeituraDTO> findByCidade(String cidade, Pageable pageable) {
 
         final Pageable effective;
         if (pageable == null || pageable.isUnpaged()) {
@@ -51,10 +50,10 @@ public class PrefeituraService {
 
         Page<Prefeitura> page=Page.empty();
 
-        if (nome != null) {
-            page = prefeituraRepo.findByNome(nome, effective);
+        if (cidade != null) {
+            page = prefeituraRepo.findByCidade(cidade, effective);
             if(page.isEmpty()){
-                throw new ObjectNotFoundException("Nenhum prefeitura encontrada com o nome: " + nome);
+                throw new ObjectNotFoundException("Nenhuma prefeitura encontrada da cidade: " + cidade);
             }
         }
 
@@ -66,8 +65,8 @@ public class PrefeituraService {
      * Reutiliza a lógica acima passando Pageable.unpaged()
      */
     @Transactional(readOnly = true)
-    public List<PrefeituraDTO> findByNome(String nome) {
-        return findByNome(nome, Pageable.unpaged()).getContent();
+    public List<PrefeituraDTO> findByCidade(String cidade) {
+        return findByCidade(cidade, Pageable.unpaged()).getContent();
     }
 
     @Transactional(readOnly = true)

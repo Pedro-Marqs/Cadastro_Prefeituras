@@ -7,12 +7,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/prefeitura")
+@RequestMapping("/api/prefeitura")
 public class PrefeituraResource {
     private final PrefeituraService service;
 
@@ -20,18 +23,51 @@ public class PrefeituraResource {
         this.service = service;
     }
 
-    // GET não paginado (simples e direto)
     @GetMapping("/all")
-    public ResponseEntity<List<PrefeituraDTO>> listAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<Page<PrefeituraDTO>> list(
+            @RequestParam(required = false) String cidade, //
+            @PageableDefault(size = 20, sort = "cidade") Pageable pageable) {
+
+        Page<PrefeituraDTO> page = service.findByCidade(cidade, pageable);
+        return ResponseEntity.ok(page);
     }
 
-    // GET "paginado" embrulhado (usa findAll e monta PageImpl)
+    // GET Lista completa (sem paginação)
     @GetMapping
-    public ResponseEntity<Page<PrefeituraDTO>> list(
-            @PageableDefault(size = 20, sort = "nome") Pageable pageable) {
-        List<PrefeituraDTO> all = service.findAll();
-        Page<PrefeituraDTO> page = new PageImpl<>(all, pageable, all.size());
-        return ResponseEntity.ok(page);
+    public ResponseEntity<List<PrefeituraDTO>> listAll(
+            @RequestParam(required = false) String cidade) {
+
+        List<PrefeituraDTO> body = service.findByCidade(cidade);
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PrefeituraDTO> findById(@PathVariable Integer id) {
+        PrefeituraDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping
+    public ResponseEntity<PrefeituraDTO> create(
+            @RequestBody @Validated(PrefeituraDTO.Create.class) PrefeituraDTO dto) {
+
+        PrefeituraDTO created = service.create(dto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(created);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PrefeituraDTO> update(@PathVariable Long id,
+                                              @RequestBody @Validated(PrefeituraDTO.Update.class) PrefeituraDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
