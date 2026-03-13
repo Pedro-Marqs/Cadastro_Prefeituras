@@ -32,8 +32,8 @@ public class ServidorDTO {
     @Size(max = 150, message = "Matrícula deve ter 15 caracteres")
     private String matricula;
 
-    @NotNull(message = "Usuario é obrigatório")
-    private Integer usuarioId;
+    @NotNull(message = "Departamento é obrigatório")
+    private Integer departamentoId;
 
     @Min(value = 0, message = "Provimento inválido: use 0 (EFETIVO) ou 1 (COMISSIONADO)")
     @Max(value = 1, message = "Provimento inválido: use 0 (EFETIVO) ou 1 (COMISSIONADO)")
@@ -42,13 +42,13 @@ public class ServidorDTO {
     public ServidorDTO() {
     }
 
-    public ServidorDTO(Long id, String nome, String CPF, BigDecimal salario, String matricula, Integer usuarioId, Integer provimento) {
+    public ServidorDTO(Long id, String nome, String CPF, BigDecimal salario, String matricula, Integer departamentoId, Integer provimento) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
         this.salario = salario;
         this.matricula = matricula;
-        this.usuarioId = usuarioId;
+        this.departamentoId = departamentoId;
         this.provimento = provimento;
     }
 
@@ -92,12 +92,12 @@ public class ServidorDTO {
         this.matricula = matricula;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
+    public Integer getDepartamentoId() {
+        return departamentoId;
     }
 
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setDepartamentoId(Integer departamentoId) {
+        this.departamentoId = departamentoId;
     }
 
     public Integer getProvimento() {
