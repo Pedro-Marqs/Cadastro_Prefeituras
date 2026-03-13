@@ -1,9 +1,12 @@
 package com.services;
 
 import com.domains.Servidor;
+import com.domains.Servidor;
 import com.domains.Departamento;
 import com.domains.dtos.ServidorDTO;
+import com.domains.dtos.ServidorDTO;
 import com.domains.enums.Provimento;
+import com.mappers.ServidorMapper;
 import com.mappers.ServidorMapper;
 import com.repositories.ServidorRepository;
 import com.repositories.DepartamentoRepository;
@@ -17,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
 
 @Service
 public class ServidorService {
@@ -51,13 +56,14 @@ public class ServidorService {
     }
 
 
-    /** Não paginado, sem filtro */
+    /** Não Paginado */
     @Transactional(readOnly = true)
-    public List<ServidorDTO> findAll() {
+    public List<ServidorDTO> findAll(){
+        //retorna uma lista de ServidorDTO
         return ServidorMapper.toDtoList(servidorRepo.findAll());
     }
 
-    /** Paginado, sem filtro */
+    /** Paginado */
     @Transactional(readOnly = true)
     public Page<ServidorDTO> findAll(Pageable pageable) {
         final Pageable effective;

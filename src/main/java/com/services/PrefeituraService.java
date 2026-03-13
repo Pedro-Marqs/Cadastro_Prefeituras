@@ -28,13 +28,14 @@ public class PrefeituraService {
         this.prefeituraRepo = prefeituraRepo;
     }
 
+    /** Não Paginado */
     @Transactional(readOnly = true)
     public List<PrefeituraDTO> findAll(){
-        //retorna uma lista de ProdutoDTO
+        //retorna uma lista de PrefeituraDTO
         return PrefeituraMapper.toDtoList(prefeituraRepo.findAll());
     }
 
-    /** Paginado*/
+    /** Paginado */
     @Transactional(readOnly = true)
     public Page<PrefeituraDTO> findAll(Pageable pageable) {
         final Pageable effective;

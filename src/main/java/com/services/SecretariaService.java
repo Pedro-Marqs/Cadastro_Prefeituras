@@ -1,7 +1,9 @@
 package com.services;
 
 import com.domains.*;
+import com.domains.dtos.PrefeituraDTO;
 import com.domains.dtos.SecretariaDTO;
+import com.mappers.PrefeituraMapper;
 import com.mappers.SecretariaMapper;
 import com.repositories.PrefeituraRepository;
 import com.repositories.SecretariaRepository;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
 
 @Service
 public class SecretariaService {
@@ -32,13 +36,14 @@ public class SecretariaService {
 
     /* =================== READ =================== */
 
-    /** Não paginado, sem filtro */
+    /** Não Paginado */
     @Transactional(readOnly = true)
-    public List<SecretariaDTO> findAll() {
+    public List<SecretariaDTO> findAll(){
+        //retorna uma lista de SecretariaDTO
         return SecretariaMapper.toDtoList(secretariaRepo.findAll());
     }
 
-    /** Paginado, sem filtro (real, no banco) */
+    /** Paginado */
     @Transactional(readOnly = true)
     public Page<SecretariaDTO> findAll(Pageable pageable) {
         final Pageable effective;

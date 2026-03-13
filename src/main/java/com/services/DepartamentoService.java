@@ -2,6 +2,8 @@ package com.services;
 
 import com.domains.*;
 import com.domains.dtos.DepartamentoDTO;
+import com.domains.dtos.DepartamentoDTO;
+import com.mappers.DepartamentoMapper;
 import com.mappers.DepartamentoMapper;
 import com.repositories.SecretariaRepository;
 import com.repositories.DepartamentoRepository;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
 
 @Service
 public class DepartamentoService {
@@ -32,13 +36,14 @@ public class DepartamentoService {
 
     /* =================== READ =================== */
 
-    /** Não paginado, sem filtro */
+    /** Não Paginado */
     @Transactional(readOnly = true)
-    public List<DepartamentoDTO> findAll() {
+    public List<DepartamentoDTO> findAll(){
+        //retorna uma lista de DepartamentoDTO
         return DepartamentoMapper.toDtoList(departamentoRepo.findAll());
     }
 
-    /** Paginado, sem filtro (real, no banco) */
+    /** Paginado */
     @Transactional(readOnly = true)
     public Page<DepartamentoDTO> findAll(Pageable pageable) {
         final Pageable effective;
