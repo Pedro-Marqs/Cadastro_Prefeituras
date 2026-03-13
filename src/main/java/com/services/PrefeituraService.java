@@ -34,6 +34,24 @@ public class PrefeituraService {
         return PrefeituraMapper.toDtoList(prefeituraRepo.findAll());
     }
 
+    /** Paginado*/
+    @Transactional(readOnly = true)
+    public Page<PrefeituraDTO> findAll(Pageable pageable) {
+        final Pageable effective;
+        if (pageable == null || pageable.isUnpaged()) {
+            effective = Pageable.unpaged();
+        } else {
+            effective = PageRequest.of(
+                    Math.max(0, pageable.getPageNumber()),
+                    Math.min(pageable.getPageSize(), MAX_PAGE_SIZE),
+                    pageable.getSort()
+            );
+        }
+
+        Page<Prefeitura> page = prefeituraRepo.findAll(effective);
+        return PrefeituraMapper.toDtoPage(page);
+    }
+
     @Transactional(readOnly = true)
     public Page<PrefeituraDTO> findByCidade(String cidade, Pageable pageable) {
 

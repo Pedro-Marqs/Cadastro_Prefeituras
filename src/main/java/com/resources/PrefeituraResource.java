@@ -23,21 +23,22 @@ public class PrefeituraResource {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    // GET paginado;
+    @GetMapping
     public ResponseEntity<Page<PrefeituraDTO>> list(
-            @RequestParam(required = false) String cidade, //
             @PageableDefault(size = 20, sort = "cidade") Pageable pageable) {
 
-        Page<PrefeituraDTO> page = service.findByCidade(cidade, pageable);
+        Page<PrefeituraDTO> page = service.findAll(pageable);                    // paginado
+
         return ResponseEntity.ok(page);
     }
 
-    // GET Lista completa (sem paginação)
-    @GetMapping
-    public ResponseEntity<List<PrefeituraDTO>> listAll(
-            @RequestParam(required = false) String cidade) {
+    // GET não paginado;
+    @GetMapping("/all")
+    public ResponseEntity<List<PrefeituraDTO>> listAll() {
 
-        List<PrefeituraDTO> body = service.findByCidade(cidade);
+        List<PrefeituraDTO> body = service.findAll();                  // não paginado
+
         return ResponseEntity.ok(body);
     }
 
