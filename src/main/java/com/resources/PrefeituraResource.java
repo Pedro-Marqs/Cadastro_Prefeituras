@@ -1,6 +1,7 @@
 package com.resources;
 
 import com.domains.dtos.PrefeituraDTO;
+import com.domains.dtos.SecretariaDTO;
 import com.services.PrefeituraService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,18 +27,24 @@ public class PrefeituraResource {
     // GET paginado;
     @GetMapping
     public ResponseEntity<Page<PrefeituraDTO>> list(
+            @RequestParam(required = false) String cidade,
             @PageableDefault(size = 20, sort = "cidade") Pageable pageable) {
 
-        Page<PrefeituraDTO> page = service.findAll(pageable);                    // paginado
+        Page<PrefeituraDTO> page = (cidade != null)
+                ? service.findByCidade(cidade, pageable) // paginado + filtro
+                : service.findAll(pageable);             // paginado sem filtro (real no DB)
 
         return ResponseEntity.ok(page);
     }
 
     // GET não paginado;
     @GetMapping("/all")
-    public ResponseEntity<List<PrefeituraDTO>> listAll() {
+    public ResponseEntity<List<PrefeituraDTO>> listAll(
+            @RequestParam(required = false) String cidade) {
 
-        List<PrefeituraDTO> body = service.findAll();                  // não paginado
+        List<PrefeituraDTO> body = (cidade != null)
+                ? service.findByCidade(cidade) // não paginado + filtro
+                : service.findAll();           // não paginado
 
         return ResponseEntity.ok(body);
     }
