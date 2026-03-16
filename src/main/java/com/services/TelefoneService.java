@@ -91,41 +91,6 @@ public class TelefoneService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TelefoneDTO> findByNumero(String numero, Pageable pageable) {
-
-        final Pageable effective;
-        if (pageable == null || pageable.isUnpaged()) {
-            effective = Pageable.unpaged();
-        } else {
-            effective = PageRequest.of(
-                    Math.max(0, pageable.getPageNumber()),
-                    Math.min(pageable.getPageSize(), MAX_PAGE_SIZE),
-                    pageable.getSort()
-            );
-        }
-
-        Page<Telefone> page=Page.empty();
-
-        if (numero != null) {
-            page = telefoneRepo.findByNumero(numero, effective);
-            if(page.isEmpty()){
-                throw new ObjectNotFoundException("Nenhuma telefone encontrada com o numero: " + numero);
-            }
-        }
-
-        return TelefoneMapper.toDtoPage(page);
-    }
-
-    /**
-     * Busca lista completa (sem paginação) com filtros
-     * Reutiliza a lógica acima passando Pageable.unpaged()
-     */
-    @Transactional(readOnly = true)
-    public List<TelefoneDTO> findByNumero(String numero) {
-        return findByNumero(numero, Pageable.unpaged()).getContent();
-    }
-
-    @Transactional(readOnly = true)
     public TelefoneDTO findById(Integer id) {
         if (id == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id é obrigatório");
